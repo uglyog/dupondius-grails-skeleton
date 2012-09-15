@@ -1,3 +1,0 @@
-#!/bin/bash
-$WORKSPACE/../../tools/Grails/grails/bin/grails "$@"
-
