@@ -6,14 +6,15 @@ if (args) {
 } else {
   build = currentBuild
 }
-cause = build.actions.find { it instanceof hudson.model.CauseAction }
-upstreamCause = cause?.causes?.find { it instanceof hudson.model.Cause.UpstreamCause }
+
+cause = build.actions.find { it instanceof hudson.model.CauseAction  && it.causes?.any { it.hasProperty('upstreamProject') } }
+upstreamCause = cause?.causes?.find { it.hasProperty('upstreamProject') }
 
 while (build && upstreamCause?.upstreamProject && upstreamCause?.upstreamProject != 'Deployment_Test') {
   job = jenkins.items.find { it.name == upstreamCause?.upstreamProject }
   build = job.builds.find { it.number == upstreamCause.upstreamBuild as Integer }
-  cause = build.actions.find { it instanceof hudson.model.CauseAction }
-  upstreamCause = cause?.causes?.find { it instanceof hudson.model.Cause.UpstreamCause }
+  cause = build.actions.find { it instanceof hudson.model.CauseAction  && it.causes?.any { it.hasProperty('upstreamProject') } }
+  upstreamCause = cause?.causes?.find { it.hasProperty('upstreamProject') }
 }
 
 if (upstreamCause) {
