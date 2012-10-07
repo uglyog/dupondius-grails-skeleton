@@ -27,7 +27,8 @@ environments {
 
         dataSource {
             dbCreate = "update"
-            url = "jdbc:mysql//${System.getenv('DB_HOST')}:${System.getenv('DB_PORT')}/${System.getenv('DB_NAME')}"
+            driverClassName = "com.mysql.jdbc.Driver"
+            url = "jdbc:mysql//${System.getenv('DB_HOST') ?: 'localhost'}:${System.getenv('DB_PORT')}/${System.getenv('DB_NAME')}"
             username = System.getenv('DB_USERNAME')
             password = System.getenv('DB_PASSWORD')
             pooled = true
